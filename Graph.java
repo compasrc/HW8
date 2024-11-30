@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   RYAN COMPAS / COMP 272-001
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -104,7 +104,35 @@ public class Graph {
   
   public int findRoot() {
 
-    // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
-  } 
+    // Initialize array to keep track of incoming edges and set each to 0
+    int[] array = new int[numVertices];
+    for (int i = 0; i < numVertices; i++){
+      array[i] = 0;
+    }
+
+    // For each vertex, iterate through its dests and increment array[dest]
+    for (int src = 0; src < adjListArr.length; src++){
+      for (int dest : adjListArr[src]){
+        array[dest]++;
+      }
+    }
+    // Identify the root(s) by checking array for values that are still 0
+    int root = -1;
+    for (int i = 0; i < numVertices; i++){
+      if (array[i] == 0){
+        if (root == -1){
+          root = i;
+          // Return -1 if multiple roots
+        } else {
+          return -1;
+        }
+      }
+    }
+    // Return root
+    if (root == -1){
+      return root;
+    } else {
+      return vertexValues.get(root);
+    }
+  }
 }
