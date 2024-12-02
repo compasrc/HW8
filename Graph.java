@@ -110,7 +110,7 @@ public class Graph {
       array[i] = 0;
     }
 
-    // For each vertex, iterate through its dests and increment array[dest]
+    // For each vertex, iterate through its dests and increment array[dest] for every edge pointing to the current vertex
     for (int src = 0; src < adjListArr.length; src++){
       for (int dest : adjListArr[src]){
         array[dest]++;
@@ -122,7 +122,6 @@ public class Graph {
       if (array[i] == 0){
         if (root == -1){
           root = i;
-          // Return -1 if multiple roots
         } else {
           return -1;
         }

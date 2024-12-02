@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   RYAN COMPAS / COMP 272-001
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
@@ -72,19 +72,65 @@ class ProblemSolutions {
      * @return boolean          - True if all exams can be taken, else false.
      */
 
-    public boolean canFinish(int numExams, 
-                             int[][] prerequisites) {
+    public boolean canFinish(int numExams,  int[][] prerequisites) {
       
         int numNodes = numExams;  // # of nodes in graph
 
         // Build directed graph's adjacency list
-        ArrayList<Integer>[] adj = getAdjList(numExams, 
-                                        prerequisites); 
+        ArrayList<Integer>[] adj = getAdjList(numExams, prerequisites);
 
-        // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        for (int i = 0; i < adj.length; i++){
+            adj[i] = new ArrayList<>();
+        }
 
+        // Loop for adding directed edges
+        for (int[] prereq : prerequisites){
+            adj[prereq[1]].add(prereq[0]);
+        }
+
+        // Track visit status using numbered array system:
+        // 0 = unvisited
+        // 1 = visiting
+        // 2 = visited
+        int[] visit = new int[numExams];
+
+        // Cycle detection using depth-first search
+        for (int i = 0; i < numExams; i++) {
+            if (cycle(i, adj, visit)) {
+                return false;
+            }
+        }
+        return true;
     }
+
+    // Cycle detection returning boolean that explores a node's neighbors
+    private boolean cycle(int node, ArrayList<Integer>[] adj, int[] visit) {
+
+        // Case for if neighboring node is still being visited (cycle)
+        if (visit[node] == 1) {
+            return true;
+        }
+
+        // Case for if neighboring node has been fully visited (no cycle)
+        if (visit[node] == 2) {
+            return false;
+        }
+
+        // Mark node as being visited
+        visit[node] = 1;
+
+        // Recursive call of neighboring nodes
+        for (int n : adj[node]) {
+            if (cycle(n, adj, visit)) {
+                return true;
+            }
+        }
+        // Mark node as fully visited
+        visit[node] = 2;
+
+        return false;
+    }
+
 
 
     /**
