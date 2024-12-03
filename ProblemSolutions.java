@@ -188,7 +188,7 @@ class ProblemSolutions {
      *   Output: 2
      *   Explanation: The Adjacency Matrix defines an
      *   undirected graph of 3 nodes (indexed 0 to 2).
-     *   Where nodes 0 and 1 aee connected, and node 2
+     *   Where nodes 0 and 1 are connected, and node 2
      *   is NOT connected. This forms two groups of
      *   nodes.
      *
@@ -210,9 +210,12 @@ class ProblemSolutions {
      */
 
     public int numGroups(int[][] adjMatrix) {
+
         int numNodes = adjMatrix.length;
         Map<Integer,List<Integer>> graph = new HashMap();
         int i = 0, j =0;
+        boolean visited[] = new boolean[numNodes];
+        int count = 0;
 
         /*
          * Converting the Graph Adjacency Matrix to
@@ -235,10 +238,25 @@ class ProblemSolutions {
                 }
             }
         }
+        // Use DFS method for depth-first traversal if not yet visited
+        for (i = 0; i < numNodes; i++) {
+            if (!visited[i]){
+                DFS(i, graph, visited);
+                count++;
+                }
+            }
+        return count;
+        }
 
-        // YOUR CODE GOES HERE - you can add helper methods, you do not need
-        // to put all code in this method.
-        return -1;
-    }
+        // Depth-first search method to recursively visit all nodes connected to current
+        // and mark as visited
+        private void DFS(int node, Map<Integer, List<Integer>> graph, boolean[] visited){
+            visited[node] = true;
 
+            for (int n : graph.getOrDefault(node, new ArrayList<>())){
+                if (!visited[n]){
+                    DFS(n, graph, visited);
+                }
+            }
+        }
 }
